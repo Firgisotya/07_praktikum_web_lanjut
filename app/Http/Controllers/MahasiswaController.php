@@ -11,10 +11,12 @@ class MahasiswaController extends Controller
     public function index()
     {
         //fungsi eloquent menampilkan data menggunakan pagination
-        $mahasiswas = Mahasiswa::all(); // Mengambil semua isi tabel
-        $posts = Mahasiswa::orderBy('Nim', 'desc')->paginate(6);
+        if(request('search')){
+            $mahasiswas = Mahasiswa::where('Nama', 'like', '%' . request('search') . '%')->paginate();
+        }else{
+            $mahasiswas = Mahasiswa::orderBy('Nim', 'asc')->paginate(5);
+        }
         return view('mahasiswa.index', compact('mahasiswas'));
-        with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     public function create()
@@ -25,12 +27,12 @@ class MahasiswaController extends Controller
     public function store(Request $request)
     {
         //melakukan validasi data
-        $request->validate([ 'Nim' => 'required', 'Nama' => 'required', 'Kelas' => 'required',
+        $validatedData = $request->validate([ 'Nim' => 'required', 'Nama' => 'required', 'Email' => 'required', 'Tanggal_lahir' => 'required', 'Kelas' => 'required',
         'Jurusan' => 'required', 'No_Handphone' => 'required',
         ]);
 
         //fungsi eloquent untuk menambah data
-        Mahasiswa::create($request->all());
+        Mahasiswa::create($validatedData);
 
         //jika data berhasil ditambahkan, akan kembali ke halaman utama
         return redirect()->route('mahasiswa.index')
@@ -59,12 +61,12 @@ class MahasiswaController extends Controller
     public function update(Request $request, $Nim)
     {
         //melakukan validasi data
-        $request->validate([ 'Nim' => 'required', 'Nama' => 'required', 'Kelas' => 'required',
+        $validatedData = $request->validate([ 'Nim' => 'required', 'Nama' => 'required', 'Email' => 'required', 'Tanggal_lahir' => 'required', 'Kelas' => 'required',
         'Jurusan' => 'required', 'No_Handphone' => 'required',
         ]);
 
         //fungsi eloquent untuk mengupdate data inputan kita
-        Mahasiswa::find($Nim)->update($request->all());
+        Mahasiswa::find($Nim)->update($validatedData);
 
         //jika data berhasil diupdate, akan kembali ke halaman utama
         return redirect()->route('mahasiswa.index')
