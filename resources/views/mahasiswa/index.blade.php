@@ -52,10 +52,12 @@
 <a class="btn btn-info" href="{{ route('mahasiswa.show',$mhs->Nim) }}">Show</a>
 
 <a class="btn btn-primary" href="{{ route('mahasiswa.edit',$mhs->Nim) }}">Edit</a>
+
 @csrf
 @method('DELETE')
 
 <button type="submit" class="btn btn-danger">Delete</button>
+<a class="btn btn-warning" href="/mahasiswa/nilai/{{ $mhs->Nim }}">Nilai</a>
 </form>
 </td>
 </tr>

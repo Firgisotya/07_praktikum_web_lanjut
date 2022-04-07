@@ -68,7 +68,7 @@ class MahasiswaController extends Controller
     {
         //menampilkan detail data dengan menemukan/berdasarkan Nim Mahasiswa
         // code sebelum di relasi --> $Mahasiswa = Mahasiswa::find($Nim);
-        $mahasiswa = Mahasiswa::with('kelas')->where('nim', $Nim)->first();
+        $mahasiswa = Mahasiswa::with('kelas')->where('Nim', $Nim)->first();
         return view('mahasiswa.detail', ['Mahasiswa' => $mahasiswa]);
 
     }
@@ -121,8 +121,8 @@ class MahasiswaController extends Controller
     {
         //fungsi eloquent untuk menghapus data
         Mahasiswa::find($Nim)->delete();
-        return redirect()->route('mahasiswa.index')
-        -> with('success', 'Mahasiswa Berhasil Dihapus');
+        return redirect()->route('mahasiswa.index')->with('success', 'Mahasiswa Berhasil Dihapus');
 
     }
+
 }
