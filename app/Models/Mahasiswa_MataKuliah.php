@@ -12,6 +12,11 @@ class Mahasiswa_MataKuliah extends Model
     protected $table = 'mahasiswa_matakuliah';
     protected $guarded = ['id'];
 
+    public function khs()
+    {
+        return $this->belongsToMany(Mahasiswa::class, Mahasiswa_MataKuliah::class, 'mahasiswa_id', 'matakuliah_id')->withPivot('nilai');
+    }
+
     public function mahasiswa(){
         return $this->belongsTo(Mahasiswa::class);
     }
